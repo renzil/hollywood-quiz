@@ -1,30 +1,44 @@
 <html>
+  <test></test>
   <head>    
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&family=Titan+One&display=swap" rel="stylesheet">
+
+    <link href="styles/common.css" rel="stylesheet">
+    <link href="styles/game.css" rel="stylesheet">
   </head>
   <body>
-    <style>
-      h1 {
-        text-align: center;
-      }
-    </style>
-    <h1>Game Page</h1>
-    <button>
-      <a href="/"><p>Home</p></a>
-    </button>
-    <img src="https://imagekit.io/blog/content/images/2020/06/Server_User.png">
-    <button>
-      <p>Option 1</p>
-    </button>
-    <button>
-      <p>Option 2</p>
-    </button>
-    <button>
-      <p>Option 3</p>
-    </button>
-    <button>
-      <p>Option 4</p>
-    </button>
+    <div id="background"></div>
+    <div id="container">
+      <br>
+      <div id="navbar">
+        <div>
+          <a href="/">
+            <i class="ri-home-2-line"></i>
+          </a>
+        </div>
+        <p>Level 1</p>
+        <div id="heart_container">
+          <i class="ri-heart-fill"></i>
+          <i class="ri-heart-fill"></i>
+          <i class="ri-heart-fill"></i>
+        </div>
+      </div>
+      <div id="question_container">
+        <p>What is the name of the actor who slapped Chris Rock at Oscars 2022?</p>
+        <img src="https://media.npr.org/assets/img/2022/03/28/gettyimages-1239558965-f7637fefd34f8453df846d97a9966c3ae7de9e13-s1100-c50.jpg" width="100%" height="100%">
+      </div>
+      <div id="btn_container">
+        <button>Option 1</button>
+        <button>Option 2</button>
+        <button>Option 3</button>
+        <button>Option 4</button>
+      </div>
+      <p></p>
+    </div>
   </body>
 </html>
