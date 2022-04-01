@@ -29,6 +29,14 @@
     color: var(--primary_color);
 }
 
+#btn_container .answer_button_correct {
+    background-color: greenyellow;
+}
+
+#btn_container .answer_button_wrong {
+    background-color: red;
+}
+
 #btn_container button:hover {
     color: var(--hover_color);
 }
