@@ -1,2 +1,2 @@
-# tech-quiz
-A simple web-based tech quiz!
+# hollywood-quiz
+A simple web-based hollywood quiz!
