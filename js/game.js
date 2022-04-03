@@ -1,7 +1,3 @@
----
----
-/* the above dashes are needed for Jekyll to substitute site.baseurl in this file */
-
 const TRIVIA_API_URL = "https://opentdb.com/api.php?amount=1&category=11&difficulty=DIFFICULTY&type=multiple";
 const TENOR_API_URL = "https://g.tenor.com/v1/search?q=QUERY&key=FIVJE9C9U2QZ&limit=10";
 
@@ -131,7 +127,7 @@ function handle_game_over() {
     let interval_id = setInterval(function() {
         if (count == 0) {
             clearInterval(interval_id);
-            window.location.href = "{{ site.baseurl }}/";
+            window.location.href = "/";
         } else if (count > 0) {
             count = count - 1;
             document.getElementById("option_1_button").innerHTML = "Restarting in " + count;
