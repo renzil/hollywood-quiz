@@ -61,6 +61,9 @@ function fetch_new_question() {
         })
         .catch(err => {
             console.log(err);
+            document.getElementById("question_image").setAttribute("src", "");
+        })
+        .finally(() => {
             loading(false);
         });
 }
