@@ -1,3 +1,5 @@
+---
+---
 const TRIVIA_API_URL = "https://opentdb.com/api.php?amount=1&category=11&difficulty=easy&type=multiple";
 const TENOR_API_URL = "https://g.tenor.com/v1/search?q=QUERY&key=FIVJE9C9U2QZ&limit=10";
 
@@ -115,7 +117,7 @@ function handle_game_over() {
         });
 
         setTimeout(function() {
-            window.location.href = "/";
+            window.location.href = "{{ site.baseurl }}/";
         }, 5000);
 }
 
