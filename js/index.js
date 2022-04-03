@@ -1,4 +1,4 @@
-let audio_enabled = true;
+let audio_enabled = false;
 window.onload = function() {
     document.getElementById("audio_button").addEventListener("click", function(event) {
         audio_enabled = !audio_enabled;

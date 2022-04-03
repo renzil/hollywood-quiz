@@ -7,7 +7,7 @@ let question = "";
 let answer = "";
 let answer_options = [];
 let is_game_over = false;
-let audio_enabled = true;
+let audio_enabled = false;
 
 function loading(enabled) {
     document.getElementById("loading_spinner").style.display = enabled ? "flex" : "none";
@@ -65,7 +65,18 @@ function fetch_new_question() {
         });
 }
 
+function playAudio(fileUrl) {
+    if (!audio_enabled) {
+        return;
+    }
+
+    let audio = new Audio(fileUrl);
+    audio.play();
+}
+
 function handle_correct_answer(clicked_button) {
+    playAudio("https://cdn.pixabay.com/download/audio/2021/08/04/audio_0625c1539c.mp3?filename=success-1-6297.mp3");
+
     clicked_button.classList.add("answer_button_correct");
 
     setTimeout(() => {
@@ -77,6 +88,8 @@ function handle_correct_answer(clicked_button) {
 }
 
 function handle_wrong_answer(clicked_button) {
+    playAudio("https://cdn.pixabay.com/download/audio/2021/08/09/audio_d64d38a0b2.mp3?filename=crash-6711.mp3");
+
     clicked_button.classList.add("answer_button_wrong");
 
     setTimeout(() => {
@@ -97,6 +110,8 @@ function handle_wrong_answer(clicked_button) {
 }
 
 function handle_game_over() {
+    playAudio("https://cdn.pixabay.com/download/audio/2021/08/04/audio_2e8fc4a203.mp3?filename=rock-destroy-6409.mp3");
+
     is_game_over = true;
     answer_buttons = document.getElementsByClassName("answer_button");
     for(let i = 1; i < answer_buttons.length; ++i){
