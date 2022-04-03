@@ -11,16 +11,18 @@
 
     <link rel="stylesheet" href="{{ site.baseurl }}/styles/common.css">
     <link rel="stylesheet" href="{{ site.baseurl }}/styles/index.css">
+
+    <script src="{{ site.baseurl }}/js/index.js"></script>
   </head>
   <body>
     <div id="background"></div>
     <div id="container">
       <h1>Hollywood Quiz</h1>
-      <p></p>
-      <p></p>
-      <div>
+      <div id="controls_container">
+        <input type="range" id="difficulty_slider" min="0" value="0" max="2" step="1">
+        <h4 id="difficulty_text">Easy</h4>
         <button>
-          <a href="{{ site.baseurl }}/game.html"><i class="ri-play-circle-fill ri-3x"></i></a>
+          <a id="play_button_link" href="{{ site.baseurl }}/game.html"><i class="ri-play-circle-fill ri-3x"></i></a>
         </button>
         <h2>PLAY</h2>
       </div>

@@ -1,6 +1,8 @@
 ---
 ---
-const TRIVIA_API_URL = "https://opentdb.com/api.php?amount=1&category=11&difficulty=easy&type=multiple";
+/* the above dashes are needed for Jekyll to substitute site.baseurl in this file */
+
+const TRIVIA_API_URL = "https://opentdb.com/api.php?amount=1&category=11&difficulty=DIFFICULTY&type=multiple";
 const TENOR_API_URL = "https://g.tenor.com/v1/search?q=QUERY&key=FIVJE9C9U2QZ&limit=10";
 
 let level = 1;
@@ -18,7 +20,9 @@ function fetch_new_question() {
     loading(true);
     enable_buttons(true);
 
-    fetch(TRIVIA_API_URL)
+    const urlParams = new URLSearchParams(window.location.search);
+    let difficulty = urlParams.get('difficulty') || "easy";
+    fetch(TRIVIA_API_URL.replace("DIFFICULTY", difficulty))
         .then(response => response.json())
         .then(data => {
             console.log(data);

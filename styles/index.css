@@ -56,3 +56,10 @@ button i {
 button i:hover {
     color: var(--hover_color);
 }
+
+#controls_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
