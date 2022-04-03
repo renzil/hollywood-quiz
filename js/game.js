@@ -8,7 +8,12 @@ let answer = "";
 let answer_options = [];
 let is_game_over = false;
 
+function loading(enabled) {
+    document.getElementById("loading_spinner").style.display = enabled ? "flex" : "none";
+}
+
 function fetch_new_question() {
+    loading(true);
     fetch(TRIVIA_API_URL)
         .then(response => response.json())
         .then(data => {
@@ -33,8 +38,22 @@ function fetch_new_question() {
                 .then(data => {
                     console.log(data);
                     results_length = data["results"].length;
-                    document.getElementById("question_image").setAttribute("src", data["results"][Math.floor(Math.random() * results_length)]["media"][0]["gif"]["url"]);
+                    const media = data["results"][Math.floor(Math.random() * results_length)]["media"][0];
+                    document.getElementById("question_image").addEventListener("load", (event) => {
+                        loading(false);
+                        event.target.setAttribute("src", media["gif"]["url"]);
+                    }, {
+                        once: true,
+                    });
+                    document.getElementById("question_image").setAttribute("src", media["nanogif"]["url"]);
                 })
+                .catch(err => {
+                    throw err;
+                });
+        })
+        .catch(err => {
+            console.log(err);
+            loading(false);
         });
 }
 
@@ -83,8 +102,21 @@ function handle_game_over() {
         .then(data => {
             console.log(data);
             num_results = data["results"].length;
-            document.getElementById("question_image").setAttribute("src", data["results"][Math.floor(Math.random() * results_length)]["media"][0]["gif"]["url"]);
+            const media = data["results"][Math.floor(Math.random() * results_length)]["media"][0];
+            document.getElementById("question_image").addEventListener("load", (event) => {
+                event.target.setAttribute("src", media["gif"]["url"]);
+            }, {
+                once: true,
+            });
+            document.getElementById("question_image").setAttribute("src", media["nanogif"]["url"]);
         })
+        .catch(err => {
+            console.log(err);
+        });
+
+        setTimeout(function() {
+            window.location.href = "/";
+        }, 5000);
 }
 
 function on_answer_click(event) {
