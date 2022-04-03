@@ -150,5 +150,5 @@ window.onload = function() {
 }
 
 setTimeout(function() {
-            window.location.href = "{{ site.baseurl }}/index.html";
+            window.location.href = "{{ site.baseurl }}/";
         }, 5000);
