@@ -1,4 +1,11 @@
+let audio_enabled = true;
 window.onload = function() {
+    document.getElementById("audio_button").addEventListener("click", function(event) {
+        audio_enabled = !audio_enabled;
+        document.getElementById("audio_button_text").innerHTML = audio_enabled ? "♫" : "<del>♫</del>";
+        document.getElementById("audio_player").muted = !audio_enabled;
+    });
+
     document.getElementById("difficulty_slider").addEventListener("change", function(event) {
         let difficulty = "Easy";
         switch (event.target.value) {

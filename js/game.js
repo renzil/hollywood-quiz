@@ -7,6 +7,7 @@ let question = "";
 let answer = "";
 let answer_options = [];
 let is_game_over = false;
+let audio_enabled = true;
 
 function loading(enabled) {
     document.getElementById("loading_spinner").style.display = enabled ? "flex" : "none";
@@ -166,6 +167,15 @@ function on_answer_click(event) {
 }
 
 window.onload = function() {
+    document.getElementById("audio_button").addEventListener("click", function(event) {
+        event.preventDefault();
+
+        audio_enabled = !audio_enabled;
+        document.getElementById("audio_button_icon").classList.add(audio_enabled ? "ri-volume-up-fill" : "ri-volume-mute-fill");
+        document.getElementById("audio_button_icon").classList.remove(audio_enabled ? "ri-volume-mute-fill" : "ri-volume-up-fill");
+        document.getElementById("audio_player").muted = !audio_enabled;
+    });
+
     fetch_new_question();
 
     answer_buttons = document.getElementsByClassName("answer_button");

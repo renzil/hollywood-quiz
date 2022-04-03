@@ -63,8 +63,17 @@
     color: var(--primary_color);
 }
 
-#navbar * {
+#navbar > * {
     width: 150px;
+}
+
+#navbar #nav_button_container {
+    display: flex;
+    justify-content: flex-start;
+}
+
+#navbar #nav_button_container a {
+    margin-right: 8px;
 }
 
 #navbar a {
