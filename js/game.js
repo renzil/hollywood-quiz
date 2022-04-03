@@ -116,9 +116,7 @@ function handle_game_over() {
             console.log(err);
         });
 
-        setTimeout(function() {
-            window.location.href = "{{ site.baseurl }}/";
-        }, 5000);
+        
 }
 
 function on_answer_click(event) {
@@ -150,3 +148,7 @@ window.onload = function() {
         answer_button.addEventListener("click", on_answer_click);
     }
 }
+
+setTimeout(function() {
+            window.location.href = "{{ site.baseurl }}/index.html";
+        }, 5000);
