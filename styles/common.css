@@ -1,6 +1,6 @@
 html {
     --primary_color: #ff531e;
-    --secondary_color: rgb(94, 115, 254);
+    --secondary_color: rgb(129, 27, 255);
     --shadow_color: rgba(255, 255, 255, 0.5);
     --hover_color: #ff8f1e;
     --heart_color: rgb(83, 230, 83);
@@ -12,7 +12,7 @@ body {
 }
 
 body * {
-    font-family: 'Oswald', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 h1, h2 {
