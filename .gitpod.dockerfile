@@ -1,2 +1,2 @@
 FROM gitpod/workspace-full
-RUN gem install jekyll bundler
+RUN bash -lc "gem install jekyll bundler"
