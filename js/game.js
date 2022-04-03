@@ -16,6 +16,8 @@ function loading(enabled) {
 
 function fetch_new_question() {
     loading(true);
+    enable_buttons(true);
+
     fetch(TRIVIA_API_URL)
         .then(response => response.json())
         .then(data => {
@@ -93,7 +95,7 @@ function handle_wrong_answer(clicked_button) {
 function handle_game_over() {
     is_game_over = true;
     answer_buttons = document.getElementsByClassName("answer_button");
-    for(let i = 0; i < answer_buttons.length; ++i){
+    for(let i = 1; i < answer_buttons.length; ++i){
         answer_buttons[i].style.visibility = "hidden";
     }
 
@@ -116,12 +118,31 @@ function handle_game_over() {
             console.log(err);
         });
 
-    setTimeout(function() {
+    let count = 3;
+    document.getElementById("option_1_button").innerHTML = "Restarting in " + count;
+    document.getElementById("option_1_button")
+    let interval_id = setInterval(function() {
+        if (count == 0) {
+            clearInterval(interval_id);
             window.location.href = "{{ site.baseurl }}/";
-        }, 3000);        
+        } else if (count > 0) {
+            count = count - 1;
+            document.getElementById("option_1_button").innerHTML = "Restarting in " + count;
+        }
+    }, 1000);
+}
+
+function enable_buttons(enabled) {
+    answer_buttons = document.getElementsByClassName("answer_button");
+    for (let i = 0; i < answer_buttons.length; ++i) {
+        answer_button = answer_buttons[i];
+        answer_button.disabled = !enabled;
+    }
 }
 
 function on_answer_click(event) {
+    enable_buttons(false);
+
     const clicked_button = event.target;
     const clicked_answer = clicked_button.innerHTML;
 
@@ -150,3 +171,5 @@ window.onload = function() {
         answer_button.addEventListener("click", on_answer_click);
     }
 }
+
+enable_buttons(false);
