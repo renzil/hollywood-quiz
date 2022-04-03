@@ -75,6 +75,12 @@ function playAudio(fileUrl) {
 }
 
 function handle_correct_answer(clicked_button) {
+    confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+    });
+
     playAudio("https://cdn.pixabay.com/download/audio/2021/08/04/audio_0625c1539c.mp3?filename=success-1-6297.mp3");
 
     clicked_button.classList.add("answer_button_correct");
