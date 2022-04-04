@@ -15,6 +15,21 @@ function loading(enabled) {
     document.getElementById("loading_spinner").style.display = enabled ? "flex" : "none";
 }
 
+function load_question_image(image_query) {
+    return fetch(TENOR_API_URL.replace("QUERY", image_query))
+        .then(response => response.json())
+        .then(data => {
+            const results_length = data["results"].length;
+            const media = data["results"][Math.floor(Math.random() * results_length)]["media"][0];
+            document.getElementById("question_image").addEventListener("load", (event) => {
+                event.target.setAttribute("src", media["gif"]["url"]);
+            }, {
+                once: true,
+            });
+            document.getElementById("question_image").setAttribute("src", media["nanogif"]["url"]);
+        });
+}
+
 function fetch_new_question() {
     loading(true);
     enable_buttons(true);
@@ -22,15 +37,10 @@ function fetch_new_question() {
     fetch(TRIVIA_API_URL.replace("DIFFICULTY", difficulty))
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             question = data["results"][0]["question"];
             answer = data["results"][0]["correct_answer"];
             answer_options = data["results"][0]["incorrect_answers"];
             answer_options.splice(Math.random() * 4, 0, answer);
-
-            console.log("Question: " + question);
-            console.log("Answer: " + answer);
-            console.log("Answer options: " + answer_options);
 
             document.getElementById("question_text").innerHTML = question;
             document.getElementById("option_1_button").innerHTML = answer_options[0];
@@ -38,27 +48,17 @@ function fetch_new_question() {
             document.getElementById("option_3_button").innerHTML = answer_options[2];
             document.getElementById("option_4_button").innerHTML = answer_options[3];
             
-            fetch(TENOR_API_URL.replace("QUERY", answer))
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    results_length = data["results"].length;
-                    const media = data["results"][Math.floor(Math.random() * results_length)]["media"][0];
-                    document.getElementById("question_image").addEventListener("load", (event) => {
-                        loading(false);
-                        event.target.setAttribute("src", media["gif"]["url"]);
-                    }, {
-                        once: true,
-                    });
-                    document.getElementById("question_image").setAttribute("src", media["nanogif"]["url"]);
-                })
+            return load_question_image(answer)
                 .catch(err => {
                     throw err;
                 });
         })
         .catch(err => {
             console.log(err);
-            document.getElementById("question_image").setAttribute("src", "");
+            return load_question_image("error")
+                .catch(err => {
+                    console.log(err);
+                });
         })
         .finally(() => {
             loading(false);
@@ -126,35 +126,26 @@ function handle_game_over() {
 
     document.getElementById("question_text").innerHTML = "Game Over! You reached Level " + level + ".";
 
-    fetch(TENOR_API_URL.replace("QUERY", "game over"))
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            num_results = data["results"].length;
-            const media = data["results"][Math.floor(Math.random() * results_length)]["media"][0];
-            document.getElementById("question_image").addEventListener("load", (event) => {
-                event.target.setAttribute("src", media["gif"]["url"]);
-            }, {
-                once: true,
-            });
-            document.getElementById("question_image").setAttribute("src", media["nanogif"]["url"]);
-        })
+    load_question_image("game over")
         .catch(err => {
             console.log(err);
-        });
-
-    let count = 3;
-    document.getElementById("option_1_button").innerHTML = "Restarting in " + count;
-    document.getElementById("option_1_button")
-    let interval_id = setInterval(function() {
-        if (count == 0) {
-            clearInterval(interval_id);
-            navigate_home();
-        } else if (count > 0) {
-            count = count - 1;
+        })
+        .finally(() => {
+            loading(false);
+            
+            let count = 3;
             document.getElementById("option_1_button").innerHTML = "Restarting in " + count;
-        }
-    }, 1000);
+            document.getElementById("option_1_button")
+            let interval_id = setInterval(function() {
+                if (count == 0) {
+                    clearInterval(interval_id);
+                    navigate_home();
+                } else if (count > 0) {
+                    count = count - 1;
+                    document.getElementById("option_1_button").innerHTML = "Restarting in " + count;
+                }
+            }, 1000);
+        });
 }
 
 function enable_buttons(enabled) {
@@ -170,8 +161,6 @@ function on_answer_click(event) {
 
     const clicked_button = event.target;
     const clicked_answer = clicked_button.innerHTML;
-
-    console.log("clicked: " + clicked_answer);
 
     if (is_game_over) {
         return;
