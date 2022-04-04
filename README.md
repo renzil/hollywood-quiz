@@ -1,5 +1,7 @@
 # hollywood-quiz
-A simple web-based hollywood quiz!
+Think you know Hollywood? Try this quiz!
+
+https://hollywood-quiz.renzil.com
 
 ## Build and run (development)
 
