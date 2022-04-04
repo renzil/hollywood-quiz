@@ -1,5 +1,6 @@
 const TRIVIA_API_URL = "https://opentdb.com/api.php?amount=1&category=11&difficulty=DIFFICULTY&type=multiple";
 const TENOR_API_URL = "https://g.tenor.com/v1/search?q=QUERY&key=FIVJE9C9U2QZ&limit=10";
+const URL_PARAMS = new URLSearchParams(window.location.search);
 
 let level = 1;
 let lives_left = 3;
@@ -7,7 +8,8 @@ let question = "";
 let answer = "";
 let answer_options = [];
 let is_game_over = false;
-let audio_enabled = false;
+let audio_enabled = URL_PARAMS.get('audio') === "true" || false;
+let difficulty = URL_PARAMS.get('difficulty') || "easy";
 
 function loading(enabled) {
     document.getElementById("loading_spinner").style.display = enabled ? "flex" : "none";
@@ -16,9 +18,7 @@ function loading(enabled) {
 function fetch_new_question() {
     loading(true);
     enable_buttons(true);
-
-    const urlParams = new URLSearchParams(window.location.search);
-    let difficulty = urlParams.get('difficulty') || "easy";
+    
     fetch(TRIVIA_API_URL.replace("DIFFICULTY", difficulty))
         .then(response => response.json())
         .then(data => {
@@ -149,7 +149,7 @@ function handle_game_over() {
     let interval_id = setInterval(function() {
         if (count == 0) {
             clearInterval(interval_id);
-            window.location.href = "/";
+            navigate_home();
         } else if (count > 0) {
             count = count - 1;
             document.getElementById("option_1_button").innerHTML = "Restarting in " + count;
@@ -187,15 +187,37 @@ function on_answer_click(event) {
     }
 }
 
+function update_window_url() {
+    window.history.replaceState({}, document.title, "/game.html?difficulty=" + difficulty + "&audio=" + audio_enabled);
+}
+
+function update_audio() {
+    document.getElementById("audio_button_icon").classList.add(audio_enabled ? "ri-volume-up-fill" : "ri-volume-mute-fill");
+    document.getElementById("audio_button_icon").classList.remove(audio_enabled ? "ri-volume-mute-fill" : "ri-volume-up-fill");
+    document.getElementById("audio_player").muted = !audio_enabled;
+    
+    update_window_url();
+}
+
+function navigate_home() {
+    window.location.href = "/?difficulty=" + difficulty + "&audio=" + audio_enabled;
+}
+
 window.onload = function() {
     document.getElementById("audio_button").addEventListener("click", function(event) {
         event.preventDefault();
 
         audio_enabled = !audio_enabled;
-        document.getElementById("audio_button_icon").classList.add(audio_enabled ? "ri-volume-up-fill" : "ri-volume-mute-fill");
-        document.getElementById("audio_button_icon").classList.remove(audio_enabled ? "ri-volume-mute-fill" : "ri-volume-up-fill");
-        document.getElementById("audio_player").muted = !audio_enabled;
+        update_audio();
     });
+
+    document.getElementById("home_button").addEventListener("click", function(event) {
+        event.preventDefault();
+
+        navigate_home();
+    });
+
+    update_audio();
 
     fetch_new_question();
 
